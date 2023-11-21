@@ -1,0 +1,64 @@
+{
+    "type": "object",
+    "properties": {
+        "name": {
+            "type": [
+                "string",
+                "null"
+            ]
+        },
+        "keys": {
+            "type": [
+                "array",
+                "null"
+            ],
+            "items": {
+                "type": [
+                    "string"
+                ]
+            }
+        },
+        "clicks": {
+            "type": [
+                "integer",
+                "null"
+            ]
+        },
+        "impressions": {
+            "type": [
+                "integer",
+                "null"
+            ]
+        },
+        "ctr": {
+            "type": [
+                "number",
+                "null"
+            ]
+        },
+        "position": {
+            "type": [
+                "number",
+                "null"
+            ]
+        },
+        "date": {
+            "type": [
+                "date",
+                "null"
+            ]
+        },
+        "query": {
+            "type": [
+                "string",
+                "null"
+            ]
+        },
+        "site_url": {
+            "type": [
+                "string",
+                "null"
+            ]
+        }
+    }
+}

@@ -1,0 +1,26 @@
+{
+    // launch.json
+    "version": "0.2.0",
+    "configurations": [
+      {
+        "name": "discovery",
+        "type": "python",
+        "request": "launch",
+        "module": "tap_google_search_console.tap",
+        "args": ["--config", ".secrets/config.json", "--discover"],
+        "python": "${command:python.interpreterPath}",
+        // Set to true to debug third-party library code
+        "justMyCode": false,
+      },
+      {
+        "name": "test",
+        "type": "python",
+        "request": "launch",
+        "module": "tap_google_search_console.tap",
+        "args": ["--config", ".secrets/config.json", ">", "output/output.json"],
+        "python": "${command:python.interpreterPath}",
+        // Set to true to debug third-party library code
+        "justMyCode": false,
+      }
+    ]
+  }
