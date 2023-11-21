@@ -3,6 +3,7 @@
 from __future__ import annotations
 from pathlib import Path
 from datetime import date, timedelta
+from enum import Enum, auto
 
 from singer_sdk.streams import Stream
 
@@ -13,21 +14,22 @@ NOW = date.today()
 
 BLOCK_SIZE = 25000
 
+class DataState(Enum):
+    all = auto()
+    final = auto()
+
 
 class GoogleSearchConsoleStream(Stream):
     """Stream class for google-search-console streams."""
     name: str
     dimensions: list[str]
     replication_key = 'date'  # noqa: ERA001
+    agg_type: str
 
     def __init__(self, *args, **kwargs) -> None:
         self.service = kwargs.pop("service")
         super().__init__(*args, **kwargs)
         self._primary_keys = self.dimensions + ['site_url']
-
-    # @property
-    # def _get_schema_filepath(self) -> Path:
-    #     return SCHEMAS_DIR / (self.name + '.json')  # noqa: ERA001
 
     @property
     def start_date(self) -> str:
@@ -43,6 +45,14 @@ class GoogleSearchConsoleStream(Stream):
         Return 
         """
         return full_url.partition(':')[-1]
+    
+    @property
+    def datastate(self) -> str:
+        """
+        Return enum corresponding to whether API should include freshest data or not
+        """
+        choice = DataState.all if self.config.get('include_fresh_data') else DataState.final
+        return choice.name
 
     def _get_request_body(self, day: str) -> dict:
         return {
@@ -51,13 +61,16 @@ class GoogleSearchConsoleStream(Stream):
             "dimensions": self.dimensions,
             "rowLimit": BLOCK_SIZE,
             "startRow": 0,
+            "aggregationType": "auto",
+            "dataState": self.datastate
         }
     
     def _get_query_dates(self, starting_ts: str) -> List[str]:
 
+        backfill = self.config['backfill_days']
 
         # add in a couple days to cover overlap
-        starting_ts = date.fromisoformat(starting_ts) - timedelta(days=2)
+        starting_ts = date.fromisoformat(starting_ts) - timedelta(days=backfill)
         delta = date.fromisoformat(self.end_date) - starting_ts
         return [
             (starting_ts + timedelta(days=d)).isoformat()

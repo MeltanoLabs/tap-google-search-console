@@ -22,10 +22,9 @@
             "format": "date"
         },
         "country": {
-            "type": [
-                "null",
-                "string"
-            ]
+            "type": "string",
+            "minLength": 3,
+            "maxLength": 3
         },
         "clicks": {
             "type": [

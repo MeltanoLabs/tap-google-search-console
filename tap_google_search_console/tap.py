@@ -35,7 +35,7 @@ class TapGoogleSearchConsole(Tap):
         ),
         th.Property(
             "client_secrets",
-            th.StringType(),
+            th.StringType,
             description="Google Analytics Client Secrets Dictionary",
         ),
         th.Property(
@@ -44,6 +44,18 @@ class TapGoogleSearchConsole(Tap):
             description="The earliest record date to sync",
             default='2017-01-01',
         ),
+        th.Property(
+            "include_freshest_data",
+            th.BooleanType,
+            description="Include freshest data as detailed here: https://developers.google.com/search/blog/2019/09/search-performance-fresh-data",
+            default=True,
+        ),
+        th.Property(
+            "backfill_days",
+            th.IntegerType,
+            description="Used to backfill the last N days when using fresh data to ensure corrections are applied",
+            default=3
+        )
     ).to_dict()
 
     def _get_service(self):
