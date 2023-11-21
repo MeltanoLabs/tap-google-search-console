@@ -48,8 +48,16 @@ class TapGoogleSearchConsole(Tap):
 
     def _get_service(self):
         client_secrets = json.loads(self.config['client_secrets'])
-        credentials = service_account.Credentials.from_service_account_info(client_secrets, scopes=SCOPES)
-        service = build(API_SERVICE_NAME, API_VERSION, credentials=credentials)
+        credentials = service_account.Credentials.from_service_account_info(
+            client_secrets,
+            scopes=SCOPES
+        )
+        service = build(
+            API_SERVICE_NAME,
+            API_VERSION,
+            credentials=credentials,
+            cache_discovery=False
+        )
         return service
     
     def _custom_initialization(self):
