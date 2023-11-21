@@ -19,16 +19,13 @@ class GoogleSearchConsoleStream(Stream):
     name: str
     dimensions: List[str]
     replication_key = 'date'  # noqa: ERA001
+    primary_keys = dimensions + ['site_url']
 
     
 
     def __init__(self, *args, **kwargs) -> None:
         self.service = kwargs.pop("service")
         super().__init__(*args, **kwargs)
-
-    @property
-    def primary_keys(self) -> list[str]:
-        return ['site_url'] + self.dimensions
     
     # @property
     # def _get_schema_filepath(self) -> Path:
