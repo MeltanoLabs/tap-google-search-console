@@ -44,9 +44,10 @@
         },
         "date": {
             "type": [
-                "date",
-                "null"
-            ]
+                "null",
+                "string"
+            ],
+            "format": "date-time"
         },
         "query": {
             "type": [
