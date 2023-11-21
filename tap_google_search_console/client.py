@@ -17,9 +17,8 @@ BLOCK_SIZE = 25000
 class GoogleSearchConsoleStream(Stream):
     """Stream class for google-search-console streams."""
     name: str
-    dimensions: List[str]
+    dimensions: list[str]
     replication_key = 'date'  # noqa: ERA001
-    primary_keys = dimensions + ['site_url']
 
     def __init__(self, *args, **kwargs) -> None:
         self.service = kwargs.pop("service")
