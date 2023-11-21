@@ -64,8 +64,8 @@ class TapGoogleSearchConsole(Tap):
         self._custom_initialization()
         return [
             streams.PerformanceReportPage(self, service=self.service),
-            streams.PerformanceReportDate(self, service=self.service),
-            streams.PerformanceReportCountry(self, service=self.service)
+            # streams.PerformanceReportDate(self, service=self.service),
+            # streams.PerformanceReportCountry(self, service=self.service),
         ]
 
 

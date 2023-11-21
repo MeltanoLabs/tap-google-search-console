@@ -58,19 +58,22 @@ class GoogleSearchConsoleStream(Stream):
             "startRow": 0,
         }
     
-    def _get_query_dates(self) -> List[str]:
-        delta = date.fromisoformat(self.end_date) - date.fromisoformat(self.start_date)
+    def _get_query_dates(self, starting_ts: str) -> List[str]:
+
+
+        # add in a couple days to cover overlap
+        starting_ts = date.fromisoformat(starting_ts) - timedelta(days=2)
+        delta = date.fromisoformat(self.end_date) - starting_ts
         return [
-            (date.fromisoformat(self.start_date) + timedelta(days=d)).isoformat()
+            (starting_ts + timedelta(days=d)).isoformat()
             for d in range(delta.days)
         ]
 
-    
-    def request_records(self):
-
-        for day in self._get_query_dates():
+    def get_records(self, context):
+        ts = self.get_starting_replication_key_value(context)
+        for day in self._get_query_dates(ts):
             body=self._get_request_body(day)
-        
+            self.logger.debug(f'Syncing data for {day}')
             step = 0
             while True:
                 body['startRow'] = body['startRow'] + (BLOCK_SIZE*step)
@@ -92,9 +95,6 @@ class GoogleSearchConsoleStream(Stream):
                     step += 1
                 else:
                     break
-
-    def get_records(self, context):
-        yield from self.request_records()
 
     @property
     def schema_filepath(self) -> Path | None:

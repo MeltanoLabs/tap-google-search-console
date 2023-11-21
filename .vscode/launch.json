@@ -13,11 +13,21 @@
         "justMyCode": false,
       },
       {
-        "name": "test",
+        "name": "full",
         "type": "python",
         "request": "launch",
         "module": "tap_google_search_console.tap",
         "args": ["--config", ".secrets/config.json", ">", "output/output.json"],
+        "python": "${command:python.interpreterPath}",
+        // Set to true to debug third-party library code
+        "justMyCode": false,
+      },
+      {
+        "name": "full w/ state",
+        "type": "python",
+        "request": "launch",
+        "module": "tap_google_search_console.tap",
+        "args": ["--config", ".secrets/config.json", "--state", ".secrets/state.json", ">", "output/output.json"],
         "python": "${command:python.interpreterPath}",
         // Set to true to debug third-party library code
         "justMyCode": false,
