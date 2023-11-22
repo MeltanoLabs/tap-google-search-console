@@ -8,12 +8,6 @@
                 "string"
             ]
         },
-        "search_type": {
-            "type": [
-                "null",
-                "string"
-            ]
-        },
         "date": {
             "type": [
                 "null",

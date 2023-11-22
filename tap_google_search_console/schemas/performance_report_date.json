@@ -1,12 +1,6 @@
 {
     "type": "object",
     "properties": {
-        "name": {
-            "type": [
-                "string",
-                "null"
-            ]
-        },
         "clicks": {
             "type": [
                 "integer",
