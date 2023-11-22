@@ -18,13 +18,18 @@ class DataState(Enum):
     all = auto()
     final = auto()
 
+class AggType(Enum):
+    byProperty = auto()
+    byPage = auto()
+    auto = auto()
+
 
 class GoogleSearchConsoleStream(Stream):
     """Stream class for google-search-console streams."""
     name: str
     dimensions: list[str]
     replication_key = 'date'  # noqa: ERA001
-    agg_type: str
+    agg_type: str = AggType.auto
 
     def __init__(self, *args, **kwargs) -> None:
         self.service = kwargs.pop("service")
@@ -61,7 +66,7 @@ class GoogleSearchConsoleStream(Stream):
             "dimensions": self.dimensions,
             "rowLimit": BLOCK_SIZE,
             "startRow": 0,
-            "aggregationType": "auto",
+            "aggregationType": self.agg_type.name,
             "dataState": self.datastate
         }
     

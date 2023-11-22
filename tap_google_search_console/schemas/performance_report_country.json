@@ -51,12 +51,6 @@
                 "number"
             ],
             "multipleOf": 1e-25
-        },
-        "query": {
-            "type": [
-                "string",
-                "null"
-            ]
         }
     }
 }

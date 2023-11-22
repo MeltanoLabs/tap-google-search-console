@@ -7,17 +7,6 @@
                 "null"
             ]
         },
-        "keys": {
-            "type": [
-                "array",
-                "null"
-            ],
-            "items": {
-                "type": [
-                    "string"
-                ]
-            }
-        },
         "clicks": {
             "type": [
                 "integer",
@@ -48,12 +37,6 @@
                 "string"
             ],
             "format": "date"
-        },
-        "query": {
-            "type": [
-                "string",
-                "null"
-            ]
         },
         "site_url": {
             "type": [

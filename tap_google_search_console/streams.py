@@ -5,9 +5,20 @@ from __future__ import annotations
 import typing as t
 from pathlib import Path
 
-from tap_google_search_console.client import GoogleSearchConsoleStream
+from tap_google_search_console.client import GoogleSearchConsoleStream, AggType
 
 SCHEMAS_DIR = Path(__file__).parent / Path("./schemas")
+
+class PerformanceReportQuery(GoogleSearchConsoleStream):
+
+    name = "performance_report_page"
+    dimensions = [
+        "date",
+        "query"
+    ]
+    # Optionally, you may also use `schema_filepath` in place of `schema`:
+    schema_filepath = SCHEMAS_DIR / (name + '.json')
+    agg_type = AggType.byProperty
 
 
 class PerformanceReportPage(GoogleSearchConsoleStream):
@@ -16,10 +27,10 @@ class PerformanceReportPage(GoogleSearchConsoleStream):
     dimensions = [
         "date",
         "page",
-        "query"
     ]
     # Optionally, you may also use `schema_filepath` in place of `schema`:
     schema_filepath = SCHEMAS_DIR / (name + '.json')
+    agg_type = AggType.byPage
     
 
 class PerformanceReportDate(GoogleSearchConsoleStream):
@@ -27,9 +38,9 @@ class PerformanceReportDate(GoogleSearchConsoleStream):
     name = "performance_report_date"
     dimensions = [
         "date",
-        "query"
     ]
     schema_filepath = SCHEMAS_DIR / (name + '.json')
+    agg_type = AggType.byProperty
 
 class PerformanceReportCountry(GoogleSearchConsoleStream):
 
@@ -37,6 +48,6 @@ class PerformanceReportCountry(GoogleSearchConsoleStream):
     dimensions = [
         "date",
         "country",
-        "query",
     ]
     schema_filepath = SCHEMAS_DIR / (name + '.json')
+    agg_type = AggType.byProperty

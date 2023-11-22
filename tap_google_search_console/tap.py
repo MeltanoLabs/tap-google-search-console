@@ -86,6 +86,7 @@ class TapGoogleSearchConsole(Tap):
             streams.PerformanceReportPage(self, service=self.service),
             streams.PerformanceReportDate(self, service=self.service),
             streams.PerformanceReportCountry(self, service=self.service),
+            streams.PerformanceReportQuery(self, service=self.service),
         ]
 
 
