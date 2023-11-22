@@ -51,7 +51,7 @@ class GoogleSearchConsoleStream(Stream):
         """
         Return enum corresponding to whether API should include freshest data or not
         """
-        choice = DataState.all if self.config.get('include_fresh_data') else DataState.final
+        choice = DataState.all if self.config.get('include_freshest_data') else DataState.final
         return choice.name
 
     def _get_request_body(self, day: str) -> dict:
