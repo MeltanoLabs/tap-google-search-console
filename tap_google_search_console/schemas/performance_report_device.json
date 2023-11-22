@@ -1,0 +1,48 @@
+{
+    "type": "object",
+    "properties": {
+        "clicks": {
+            "type": [
+                "integer",
+                "null"
+            ]
+        },
+        "impressions": {
+            "type": [
+                "integer",
+                "null"
+            ]
+        },
+        "ctr": {
+            "type": [
+                "number",
+                "null"
+            ]
+        },
+        "position": {
+            "type": [
+                "number",
+                "null"
+            ]
+        },
+        "date": {
+            "type": [
+                "null",
+                "string"
+            ],
+            "format": "date"
+        },
+        "device": {
+            "type": [
+                "string",
+                "null"
+            ]
+        },
+        "site_url": {
+            "type": [
+                "string",
+                "null"
+            ]
+        }
+    }
+}

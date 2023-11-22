@@ -51,3 +51,13 @@ class PerformanceReportCountry(GoogleSearchConsoleStream):
     ]
     schema_filepath = SCHEMAS_DIR / (name + '.json')
     agg_type = AggType.byProperty
+
+class PerformanceReportDevice(GoogleSearchConsoleStream):
+
+    name = "performance_report_device"
+    dimensions = [
+        "date",
+        "device",
+    ]
+    schema_filepath = SCHEMAS_DIR / (name + '.json')
+    agg_type = AggType.byProperty
