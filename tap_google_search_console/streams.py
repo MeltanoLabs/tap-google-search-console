@@ -11,7 +11,7 @@ SCHEMAS_DIR = Path(__file__).parent / Path("./schemas")
 
 class PerformanceReportQuery(GoogleSearchConsoleStream):
 
-    name = "performance_report_page"
+    name = "performance_report_query"
     dimensions = [
         "date",
         "query"
