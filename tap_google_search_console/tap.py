@@ -1,23 +1,23 @@
 """google-search-console tap class."""
 
 from __future__ import annotations
-import json
 
-from singer_sdk import Tap
-from singer_sdk import typing as th  # JSON schema typing helpers
+import json
 
 from google.oauth2 import service_account
 from googleapiclient.discovery import build
+from singer_sdk import Tap
+from singer_sdk import typing as th  # JSON schema typing helpers
 
 from tap_google_search_console import streams
 
 SCOPES = [
-    'https://www.googleapis.com/auth/webmasters',
-    'https://www.googleapis.com/auth/webmasters.readonly',
+    "https://www.googleapis.com/auth/webmasters",
+    "https://www.googleapis.com/auth/webmasters.readonly",
 ]
 
-API_SERVICE_NAME = 'searchconsole'
-API_VERSION = 'v1'
+API_SERVICE_NAME = "searchconsole"
+API_VERSION = "v1"
 
 
 class TapGoogleSearchConsole(Tap):
@@ -25,7 +25,6 @@ class TapGoogleSearchConsole(Tap):
 
     name = "tap-google-search-console"
 
-    # TODO: Update this section with the actual config values you expect:
     config_jsonschema = th.PropertiesList(
         th.Property(
             "site_url",
@@ -42,37 +41,36 @@ class TapGoogleSearchConsole(Tap):
             "start_date",
             th.DateTimeType,
             description="The earliest record date to sync",
-            default='2017-01-01',
+            default="2017-01-01",
         ),
         th.Property(
             "include_freshest_data",
             th.BooleanType,
-            description="Include freshest data as detailed here: https://developers.google.com/search/blog/2019/09/search-performance-fresh-data",
+            description="Include freshest data as detailed here: https://developers.google.com/search/blog/2019/09/search-performance-fresh-data",  # noqa: E501
             default=True,
         ),
         th.Property(
             "backfill_days",
             th.IntegerType,
-            description="Used to backfill the last N days when using fresh data to ensure corrections are applied",
-            default=3
-        )
+            description="Used to backfill the last N days when using fresh data to ensure corrections are applied",  # noqa: E501
+            default=3,
+        ),
     ).to_dict()
 
-    def _get_service(self):
-        client_secrets = json.loads(self.config['client_secrets'])
+    def _get_service(self):  # noqa: ANN202
+        client_secrets = json.loads(self.config["client_secrets"])
         credentials = service_account.Credentials.from_service_account_info(
             client_secrets,
-            scopes=SCOPES
+            scopes=SCOPES,
         )
-        service = build(
+        return build(
             API_SERVICE_NAME,
             API_VERSION,
             credentials=credentials,
-            cache_discovery=False
+            cache_discovery=False,
         )
-        return service
-    
-    def _custom_initialization(self):
+
+    def _custom_initialization(self):  # noqa: ANN202
         self.service = self._get_service()
 
     def discover_streams(self) -> list[streams.GoogleSearchConsoleStream]:
