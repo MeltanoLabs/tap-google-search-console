@@ -5,7 +5,6 @@ updates:
     versioning-strategy: increase-if-necessary
     schedule:
       interval: weekly
-    reviewers: []
     labels: [deps]
     groups:
       default:
