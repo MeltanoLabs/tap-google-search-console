@@ -19,11 +19,13 @@ plugins:
       start_date: '2010-01-01T00:00:00Z'
     settings:
     # TODO: To configure using Meltano, declare settings and their types here:
-    - name: username
-    - name: password
-      kind: password
     - name: start_date
-      value: '2010-01-01T00:00:00Z'
+      kind: string
+    - name: client_secrets
+      kind: string
+      sensitive: true
+    - name: site_url
+      kind: string
   loaders:
   - name: target-jsonl
     variant: andyh1203

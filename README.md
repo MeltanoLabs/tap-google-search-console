@@ -4,39 +4,47 @@
 
 Built with the [Meltano Tap SDK](https://sdk.meltano.com) for Singer Taps.
 
-<!--
-
-Developer TODO: Update the below as needed to correctly describe the install procedure. For instance, if you do not have a PyPi repo, or if you want users to directly install from your git repo, you can modify this step as appropriate.
-
 ## Installation
-
-Install from PyPi:
-
-```bash
-pipx install tap-google-search-console
-```
 
 Install from GitHub:
 
 ```bash
-pipx install git+https://github.com/ORG_NAME/tap-google-search-console.git@main
+pipx install git+https://github.com/MeltanoLabs/tap-google-search-console@main
 ```
-
--->
 
 ## Configuration
 
 ### Accepted Config Options
 
-<!--
-Developer TODO: Provide a list of config options accepted by the tap.
+#### site_url
+Required
 
-This section can be created by copy-pasting the CLI output from:
+The site you want to retrieve metrics for, preceeded with `sc-domain` - i.e. `sc-domain:meltano.com`.
+Your client secrets must have permission to access this site.
 
-```
-tap-google-search-console --about --format=markdown
-```
--->
+#### client_secrets
+Required
+
+A JSON string of your Google service account client secrets 
+
+https://developers.google.com/identity/protocols/oauth2/service-account
+
+#### start_date
+Required
+
+The date from which you want to retrive metrics from.
+
+#### include_freshest_data
+Default: `True`
+
+Search data for the latest few days can change due to late received data and processing at Google. If you do not want to retrieve that is not 'final', this value can be set to `False`
+
+If this value is set to `False` you will not be able to retrieve data for the most recent dates.
+
+#### backfill_days
+Default: 3
+
+The backfill extends the start date by this number. With a start date of 2024-12-01 and a backfill of days. Combining this setting with `include_freshest` will mean you always retrieve the latest data, but overwrite this with 'final' data as this is available.
 
 A full list of supported settings and capabilities for this
 tap is available by running:
@@ -53,9 +61,9 @@ environment variable is set either in the terminal context or in the `.env` file
 
 ### Source Authentication and Authorization
 
-<!--
-Developer TODO: If your tap requires special access on the source system, or any special authentication requirements, provide those here.
--->
+You will need to generate a service account credential for your Google Account and authorize this account to access the Google Search Console.
+
+https://developers.google.com/identity/protocols/oauth2/service-account
 
 ## Usage
 
