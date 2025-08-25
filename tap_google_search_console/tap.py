@@ -3,7 +3,7 @@
 from __future__ import annotations
 
 import json
-
+import os
 from google.oauth2 import service_account
 from googleapiclient.discovery import build
 from singer_sdk import Tap
@@ -57,8 +57,14 @@ class TapGoogleSearchConsole(Tap):
         ),
     ).to_dict()
 
-    def _get_service(self):  # noqa: ANN202
-        client_secrets = json.loads(self.config["client_secrets"])
+    def _get_service(self):
+        client_secrets_raw = self.config["client_secrets"]
+        if os.path.isfile(client_secrets_raw):
+            with open(client_secrets_raw, "r") as f:
+                client_secrets = json.load(f)
+        else:
+            client_secrets = json.loads(client_secrets_raw)
+
         credentials = service_account.Credentials.from_service_account_info(
             client_secrets,
             scopes=SCOPES,
