@@ -92,6 +92,7 @@ class TapGoogleSearchConsole(Tap):
             streams.PerformanceReportCountry(self, service=self.service),
             streams.PerformanceReportQuery(self, service=self.service),
             streams.PerformanceReportDevice(self, service=self.service),
+            streams.PerformanceReportKeys(self, service=self.service),
         ]
 
 

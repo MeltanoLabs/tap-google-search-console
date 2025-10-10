@@ -132,6 +132,34 @@ class GoogleSearchConsoleStream(Stream):
                 else:
                     break
 
+    def get_raw_records(
+            self,
+            context: dict[Any, Any] | None,
+    ) -> Generator[dict, None, None]:
+        """Yields raw records from the API call, keeping the 'keys' field."""
+        ts = self.get_starting_replication_key_value(context)
+        for day in self._get_query_dates(ts):
+            body = self._get_request_body(day)
+            self.logger.debug(f"Syncing raw data for {day}")
+            step = 0
+            while True:
+                body["startRow"] = body["startRow"] + (BLOCK_SIZE * step)
+                query = self.service.searchanalytics().query(
+                    siteUrl=self.config["site_url"],
+                    body=body,
+                )
+                resp = query.execute()
+
+                site_url = self.get_site_url(self.config["site_url"])
+
+                if rows := resp.get("rows"):
+                    for row in rows:
+                        row["site_url"] = site_url
+                        yield row
+                    step += 1
+                else:
+                    break
+
     @property
     def schema_filepath(self) -> Path | None:
         """Return schema filepath."""
