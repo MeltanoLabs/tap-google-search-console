@@ -67,25 +67,21 @@ class PerformanceReportDevice(GoogleSearchConsoleStream):
     schema_filepath = SCHEMAS_DIR / (name + ".json")
     agg_type = AggType.byProperty
 
+
+# New stream class to preserve 'keys' field
 class PerformanceReportKeys(GoogleSearchConsoleStream):
     """Stream for raw Google Search Console performance data (preserves 'keys')."""
 
     name = "performance_report_keys"
-    # 'dimensions' isn't used here since we're not unpacking 'keys'
-    dimensions = ("date", "query",)
+    dimensions = ("date", "query", "page", "country", "device")  # Include 'date' for replication key support
     schema_filepath = SCHEMAS_DIR / (name + ".json")
-    agg_type = AggType.byProperty
+    # Use auto aggregation type (byProperty is invalid for multi-dimension)
+    agg_type = AggType.auto
 
     def get_records(
         self,
-        context: dict[Any, Any] | None,
+        context: dict | None,
     ):
-        """Yield records with 'date' extracted for replication."""
-        for row in self.get_raw_records(context):
-            # Extract date from keys if available
-            if "keys" in row and isinstance(row["keys"], list) and len(row["keys"]) > 0:
-                row["date"] = row["keys"][0]
-            else:
-                row["date"] = None
-            yield row
+        """Yield raw API data keeping 'keys' in each row."""
+        yield from self.get_raw_records(context)
 

@@ -155,6 +155,13 @@ class GoogleSearchConsoleStream(Stream):
                 if rows := resp.get("rows"):
                     for row in rows:
                         row["site_url"] = site_url
+                        if self.dimensions and "date" in self.dimensions:
+                            date_index = self.dimensions.index("date")
+                            try:
+                                row["date"] = row["keys"][date_index]
+                            except (IndexError, KeyError):
+                                row["date"] = day  # fallback to API day
+
                         yield row
                     step += 1
                 else:
