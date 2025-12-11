@@ -68,7 +68,7 @@ class PerformanceReportDevice(GoogleSearchConsoleStream):
     agg_type = AggType.byProperty
 
 
-# New stream class to preserve 'keys' field
+# New stream class that pulls all dimensions from keys
 class PerformanceReportKeys(GoogleSearchConsoleStream):
     """Stream for raw Google Search Console performance data (preserves 'keys')."""
 
