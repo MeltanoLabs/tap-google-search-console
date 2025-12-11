@@ -4,12 +4,17 @@ from __future__ import annotations
 
 import json
 import os
+from typing import TYPE_CHECKING
+
 from google.oauth2 import service_account
 from googleapiclient.discovery import build
 from singer_sdk import Tap
 from singer_sdk import typing as th  # JSON schema typing helpers
 
 from tap_google_search_console import streams
+
+if TYPE_CHECKING:
+    from googleapiclient.discovery import Resource
 
 SCOPES = [
     "https://www.googleapis.com/auth/webmasters",
@@ -46,7 +51,7 @@ class TapGoogleSearchConsole(Tap):
         th.Property(
             "include_freshest_data",
             th.BooleanType,
-            description="Include freshest data as detailed here: https://developers.google.com/search/blog/2019/09/search-performance-fresh-data",  # noqa: E501
+            description="Include freshest data as detailed here: https://developers.google.com/search/blog/2019/09/search-performance-fresh-data",
             default=True,
         ),
         th.Property(
@@ -57,10 +62,10 @@ class TapGoogleSearchConsole(Tap):
         ),
     ).to_dict()
 
-    def _get_service(self):
+    def _get_service(self) -> Resource:
         client_secrets_raw = self.config["client_secrets"]
-        if os.path.isfile(client_secrets_raw):
-            with open(client_secrets_raw, "r") as f:
+        if os.path.isfile(client_secrets_raw):  # noqa: PTH113
+            with open(client_secrets_raw) as f:  # noqa: PTH123
                 client_secrets = json.load(f)
         else:
             client_secrets = json.loads(client_secrets_raw)
@@ -92,6 +97,7 @@ class TapGoogleSearchConsole(Tap):
             streams.PerformanceReportCountry(self, service=self.service),
             streams.PerformanceReportQuery(self, service=self.service),
             streams.PerformanceReportDevice(self, service=self.service),
+            streams.PerformanceReportKeys(self, service=self.service),
         ]
 
 

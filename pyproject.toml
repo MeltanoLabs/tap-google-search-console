@@ -31,22 +31,20 @@ python_version = "3.9"
 warn_unused_configs = true
 
 [tool.ruff]
-ignore = [
-    "ANN101",  # missing-type-self
-    "ANN102",  # missing-type-cls
-]
-select = ["ALL"]
+required-version = ">=0.14"
 src = ["tap_google_search_console"]
-target-version = "py37"
+target-version = "py38"
 
+[tool.ruff.lint]
+select = ["ALL"]
 
-[tool.ruff.flake8-annotations]
+[tool.ruff.lint.flake8-annotations]
 allow-star-arg-any = true
 
-[tool.ruff.isort]
+[tool.ruff.lint.isort]
 known-first-party = ["tap_google_search_console"]
 
-[tool.ruff.pydocstyle]
+[tool.ruff.lint.pydocstyle]
 convention = "google"
 
 [build-system]
