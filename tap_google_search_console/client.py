@@ -6,12 +6,14 @@ from __future__ import annotations
 
 import datetime
 from enum import Enum, auto
-from typing import TYPE_CHECKING, Any, Generator
+from typing import TYPE_CHECKING, Generator
 
 from singer_sdk.streams import Stream
 
 if TYPE_CHECKING:
     from pathlib import Path
+
+    from singer_sdk.helpers.types import Context
 
 API_SERVICE_NAME = "searchconsole"
 API_VERSION = "v1"
@@ -23,7 +25,7 @@ BLOCK_SIZE = 25000
 class DataState(Enum):
     """Used to indicate whether all data should be extracted or just finalised data."""
 
-    all = auto()  # noqa: A003
+    all = auto()
     final = auto()
 
 
@@ -103,7 +105,7 @@ class GoogleSearchConsoleStream(Stream):
 
     def get_records(
         self,
-        context: dict[Any, Any] | None,
+        context: Context | None,
     ) -> Generator[dict, None, None]:
         """Yields records from the API call."""
         ts = self.get_starting_replication_key_value(context)
@@ -133,8 +135,8 @@ class GoogleSearchConsoleStream(Stream):
                     break
 
     def get_raw_records(
-            self,
-            context: dict[Any, Any] | None,
+        self,
+        context: Context | None,
     ) -> Generator[dict, None, None]:
         """Yields raw records from the API call, keeping the 'keys' field."""
         ts = self.get_starting_replication_key_value(context)

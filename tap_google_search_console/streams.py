@@ -3,8 +3,12 @@
 from __future__ import annotations
 
 from pathlib import Path
+from typing import TYPE_CHECKING, Generator
 
 from tap_google_search_console.client import AggType, GoogleSearchConsoleStream
+
+if TYPE_CHECKING:
+    from singer_sdk.helpers.types import Context
 
 SCHEMAS_DIR = Path(__file__).parent / Path("./schemas")
 
@@ -73,15 +77,20 @@ class PerformanceReportKeys(GoogleSearchConsoleStream):
     """Stream for raw Google Search Console performance data (preserves 'keys')."""
 
     name = "performance_report_keys"
-    dimensions = ("date", "query", "page", "country", "device")  # Include 'date' for replication key support
+    dimensions = (
+        "date",  # Include 'date' for replication key support
+        "query",
+        "page",
+        "country",
+        "device",
+    )
     schema_filepath = SCHEMAS_DIR / (name + ".json")
     # Use auto aggregation type (byProperty is invalid for multi-dimension)
     agg_type = AggType.auto
 
     def get_records(
         self,
-        context: dict | None,
-    ):
+        context: Context | None,
+    ) -> Generator[dict, None, None]:
         """Yield raw API data keeping 'keys' in each row."""
         yield from self.get_raw_records(context)
-

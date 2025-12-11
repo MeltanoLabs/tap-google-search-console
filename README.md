@@ -25,7 +25,7 @@ Your client secrets must have permission to access this site.
 #### client_secrets
 Required
 
-A JSON string of your Google service account client secrets 
+A JSON string of your Google service account client secrets
 
 https://developers.google.com/identity/protocols/oauth2/service-account
 
