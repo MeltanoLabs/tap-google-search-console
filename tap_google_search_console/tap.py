@@ -24,15 +24,6 @@ SCOPES = [
 API_SERVICE_NAME = "searchconsole"
 API_VERSION = "v1"
 
-REFRESH_TOKEN_PROPERTY = th.Property(
-    "refresh_token",
-    th.StringType(nullable=False),
-    required=True,
-    secret=True,
-    title="Refresh Token",
-    description="Google OAuth2 refresh token",
-)
-
 class TapGoogleSearchConsole(Tap):
     """google-search-console tap class."""
 
@@ -41,41 +32,28 @@ class TapGoogleSearchConsole(Tap):
     config_jsonschema = th.PropertiesList(
         th.Property(
             "oauth_credentials",
-            th.OneOf(
-                th.ObjectType(
-                    th.Property(
-                        "client_id",
-                        th.StringType(nullable=False),
-                        required=True,
-                        title="Client ID",
-                        description="Google OAuth2 client ID",
-                    ),
-                    th.Property(
-                        "client_secret",
-                        th.StringType(nullable=False),
-                        required=True,
-                        secret=True,
-                        title="Client Secret",
-                        description="Google OAuth2 client secret",
-                    ),
-                    REFRESH_TOKEN_PROPERTY,
+            th.ObjectType(
+                th.Property(
+                    "refresh_proxy_url",
+                    th.StringType(nullable=False),
+                    required=True,
+                    title="Refresh Proxy URL",
+                    description="Proxy URL to support token refresh without a client ID/secret",
                 ),
-                th.ObjectType(
-                    th.Property(
-                        "refresh_proxy_url",
-                        th.StringType(nullable=False),
-                        required=True,
-                        title="Refresh Proxy URL",
-                        description="Proxy URL to support token refresh without a client ID/secret",
-                    ),
-                    th.Property(
-                        "refresh_proxy_url_auth",
-                        th.StringType,
-                        secret=True,
-                        title="Refresh Proxy URL Auth",
-                        description="Authorization for proxy URL",
-                    ),
-                    REFRESH_TOKEN_PROPERTY,
+                th.Property(
+                    "refresh_proxy_url_auth",
+                    th.StringType,
+                    secret=True,
+                    title="Refresh Proxy URL Auth",
+                    description="Authorization for proxy URL",
+                ),
+                th.Property(
+                    "refresh_token",
+                    th.StringType(nullable=False),
+                    required=True,
+                    secret=True,
+                    title="Refresh Token",
+                    description="Google OAuth2 refresh token",
                 ),
             ),
             required=True,
