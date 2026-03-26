@@ -23,11 +23,37 @@ The site you want to retrieve metrics for, preceeded with `sc-domain` - i.e. `sc
 Your client secrets must have permission to access this site.
 
 #### client_secrets
-Required
+Conditionally required when `oauth_credentials` is not supplied
 
 A JSON string of your Google service account client secrets
 
 https://developers.google.com/identity/protocols/oauth2/service-account
+
+#### oauth_credentials
+Conditionally required when `client_secrets` is not supplied
+
+An object denoting OAuth-specific configuration
+
+```json
+    "oauth_credentials": {
+        "refresh_proxy_url": "https://app.matatika.com/api/tokens/oauth2-google/token",
+        "refresh_proxy_url_auth": "Bearer ***",
+        "access_token": "***",
+        "refresh_token": "***"
+    }
+```
+
+##### refresh_proxy_url
+Proxy server URL for Google OAuth with token refresh capability, used to fetch a new access token
+
+##### refresh_proxy_url_auth
+`Authorization` header content, used in the `refresh_proxy_url` request to fetch a new access token
+
+##### access_token
+Access token used in requests to the Google Search Console API, will circumvent refresh proxy requests if valid/not expired
+
+##### refresh_token
+Refresh token previously returned by the proxy server, used in the `refresh_proxy_url` request to fetch a new access token
 
 #### start_date
 Required
