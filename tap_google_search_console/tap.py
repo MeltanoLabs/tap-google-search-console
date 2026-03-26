@@ -56,7 +56,6 @@ class TapGoogleSearchConsole(Tap):
                     description="Google OAuth2 refresh token",
                 ),
             ),
-            required=True,
         ),
         th.Property(
             "site_url",
