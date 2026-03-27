@@ -31,11 +31,15 @@ class ProxyOAuthCredentials(credentials.Credentials):
     def __init__(
         self,
         token: str | None,
-        refresh_token: str,
-        refresh_proxy_url: str,
+        refresh_token: str | None,
+        refresh_proxy_url: str | None,
         refresh_proxy_url_auth: str | None,
     ):
         def refresh_handler(request: Request, scopes):
+            if not refresh_proxy_url or not refresh_token:
+                msg = "Insufficient config for proxy token refresh - 'refresh_proxy_url' and 'refresh_token' required"
+                raise ValueError(msg)
+
             response: Response = request(
                 refresh_proxy_url,
                 method="POST",
@@ -74,8 +78,7 @@ class TapGoogleSearchConsole(Tap):
             th.ObjectType(
                 th.Property(
                     "refresh_proxy_url",
-                    th.StringType(nullable=False),
-                    required=True,
+                    th.StringType,
                     title="Refresh Proxy URL",
                     description="Proxy URL to support token refresh without a client ID/secret",
                 ),
@@ -95,8 +98,7 @@ class TapGoogleSearchConsole(Tap):
                 ),
                 th.Property(
                     "refresh_token",
-                    th.StringType(nullable=False),
-                    required=True,
+                    th.StringType,
                     secret=True,
                     title="Refresh Token",
                     description="Google OAuth2 refresh token",
@@ -140,8 +142,8 @@ class TapGoogleSearchConsole(Tap):
         if oauth_credentials:
             return ProxyOAuthCredentials(
                 token=oauth_credentials.get("access_token"),
-                refresh_token=oauth_credentials["refresh_token"],
-                refresh_proxy_url=oauth_credentials["refresh_proxy_url"],
+                refresh_token=oauth_credentials.get("refresh_token"),
+                refresh_proxy_url=oauth_credentials.get("refresh_proxy_url"),
                 refresh_proxy_url_auth=oauth_credentials.get("refresh_proxy_url_auth"),
             )
 
