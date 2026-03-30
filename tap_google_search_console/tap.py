@@ -27,7 +27,8 @@ SCOPES = [
 API_SERVICE_NAME = "searchconsole"
 API_VERSION = "v1"
 
-class ProxyOAuthCredentials(credentials.Credentials):
+
+class ProxyOAuthCredentials(credentials.Credentials):  # noqa: DTZ005
     def __init__(
         self,
         token: str | None,
@@ -144,7 +145,8 @@ class TapGoogleSearchConsole(Tap):
                 token=oauth_credentials.get("access_token"),
                 refresh_token=oauth_credentials.get("refresh_token"),
                 refresh_proxy_url=oauth_credentials.get("refresh_proxy_url"),
-                refresh_proxy_url_auth=oauth_credentials.get("refresh_proxy_url_auth"),
+                refresh_proxy_url_auth=oauth_credentials.get(
+                    "refresh_proxy_url_auth"),
             )
 
         client_secrets_raw = self.config["client_secrets"]
