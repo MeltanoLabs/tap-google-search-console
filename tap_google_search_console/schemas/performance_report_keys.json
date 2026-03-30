@@ -1,25 +1,54 @@
 {
     "type": "object",
     "properties": {
+        "site_url": {
+            "type": [
+                "string",
+                "null"
+            ]
+        },
         "clicks": {
-            "type": ["integer", "null"]
+            "type": [
+                "integer",
+                "null"
+            ]
         },
         "impressions": {
-            "type": ["integer", "null"]
+            "type": [
+                "integer",
+                "null"
+            ]
         },
         "ctr": {
-            "type": ["number", "null"]
+            "type": [
+                "number",
+                "null"
+            ]
         },
         "position": {
-            "type": ["number", "null"]
+            "type": [
+                "number",
+                "null"
+            ]
         },
         "date": {
-            "type": ["string", "null"],
+            "type": [
+                "string",
+                "null"
+            ],
             "format": "date"
         },
         "keys": {
-            "type": ["array", "null"],
-            "items": { "type": ["string", "null"] },
+            "type": [
+                "array",
+                "null"
+            ],
+            "items": {
+                "type": [
+                    "string",
+                    "null"
+                ]
+            },
             "description": "Raw 'keys' array returned by Google Search Console API."
         }
     }
