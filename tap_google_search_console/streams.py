@@ -79,10 +79,6 @@ class PerformanceReportKeys(GoogleSearchConsoleStream):
     name = "performance_report_keys"
     dimensions = (
         "date",  # Include 'date' for replication key support
-        "query",
-        "page",
-        "country",
-        "device",
     )
     schema_filepath = SCHEMAS_DIR / (name + ".json")
     # Use auto aggregation type (byProperty is invalid for multi-dimension)

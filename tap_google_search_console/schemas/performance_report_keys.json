@@ -1,6 +1,9 @@
 {
     "type": "object",
     "properties": {
+        "site_url": {
+            "type": ["string", "null"]
+        },
         "clicks": {
             "type": ["integer", "null"]
         },
