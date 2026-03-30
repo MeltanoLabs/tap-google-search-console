@@ -94,12 +94,12 @@ class GoogleSearchConsoleStream(Stream):
         backfill = self.config["backfill_days"]
 
         # add in a couple days to cover overlap
-        starting_ts = datetime.date.fromisoformat(input_ts) - datetime.timedelta(
+        starting_ts = datetime.datetime.fromisoformat(input_ts) - datetime.timedelta(
             days=backfill,
         )
-        delta = datetime.date.fromisoformat(self.end_date) - starting_ts
+        delta = datetime.datetime.fromisoformat(self.end_date) - starting_ts
         return [
-            (starting_ts + datetime.timedelta(days=d)).isoformat()
+            (starting_ts + datetime.timedelta(days=d)).date().isoformat()
             for d in range(delta.days)
         ]
 
