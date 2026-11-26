@@ -114,7 +114,7 @@ class GoogleSearchConsoleStream(Stream):
             self.logger.debug(f"Syncing data for {day}")
             step = 0
             while True:
-                body["startRow"] = body["startRow"] + (BLOCK_SIZE * step)
+                body["startRow"] = BLOCK_SIZE * step
                 query = self.service.searchanalytics().query(
                     siteUrl=self.config["site_url"],
                     body=body,
@@ -145,7 +145,7 @@ class GoogleSearchConsoleStream(Stream):
             self.logger.debug(f"Syncing raw data for {day}")
             step = 0
             while True:
-                body["startRow"] = body["startRow"] + (BLOCK_SIZE * step)
+                body["startRow"] = BLOCK_SIZE * step
                 query = self.service.searchanalytics().query(
                     siteUrl=self.config["site_url"],
                     body=body,
